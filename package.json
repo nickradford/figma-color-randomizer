@@ -1,0 +1,34 @@
+{
+  "name": "figma-hello-world",
+  "version": "1.0.0",
+  "keywords": [
+    "create-figma-plugin",
+    "figma",
+    "figma-plugin"
+  ],
+  "license": "MIT",
+  "author": "Nick Radford",
+  "dependencies": {
+    "@create-figma-plugin/ui": "0.0.74",
+    "@create-figma-plugin/utilities": "*",
+    "color": "^3.1.2",
+    "preact": "^10.4.6",
+    "react-color": "^2.18.1"
+  },
+  "devDependencies": {
+    "@create-figma-plugin/build": "*",
+    "@figma/plugin-typings": "*",
+    "@types/color": "^3.0.1",
+    "@types/react-color": "^3.0.4"
+  },
+  "scripts": {
+    "build": "build-figma-plugin",
+    "watch": "build-figma-plugin --watch"
+  },
+  "figma-plugin": {
+    "id": "colorz",
+    "name": "Colorz",
+    "main": "src/main.ts",
+    "ui": "src/ui.tsx"
+  }
+}

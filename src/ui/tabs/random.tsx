@@ -13,20 +13,23 @@ import {
 import { h } from "preact";
 import { useState, useEffect } from "preact/hooks";
 import { on, emit } from "@create-figma-plugin/utilities";
-import { EVENTS } from "../../constants";
+import { EVENTS, CMD } from "../../constants";
 
-export function RandomTab(props) {
+export function RandomTab() {
   const [running, setRunning] = useState(false);
 
   useEffect(() => {
     // on(EVENTS.START_EXECUTION, () => setRunning(true));
     on(EVENTS.ERROR, () => setRunning(false));
-    on(EVENTS.END_EXECUTION, () => setRunning(false));
+    on(EVENTS.EXECUTION_END, () => {
+      console.log("execution end");
+      setRunning(false);
+    });
   }, []);
 
   const handleClick = () => {
     setRunning(true);
-    emit(EVENTS.RANDOMIZE);
+    emit(EVENTS.EXECUTE_CMD, { type: CMD.RANDOMIZE });
   };
 
   return (
@@ -35,6 +38,15 @@ export function RandomTab(props) {
         <VerticalSpace space="small" />
         <Button onClick={handleClick} loading={running} disabled={running}>
           Randomize Fills
+        </Button>
+        <Button
+          onClick={() => {
+            emit(EVENTS.EXECUTE_CMD, { type: CMD.FOOBAR });
+          }}
+          loading={running}
+          disabled={running}
+        >
+          FOOBAR
         </Button>
       </div>
     </Container>

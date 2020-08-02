@@ -19,6 +19,7 @@ export function validateSelectionLength(
   }
 
   return (args: any) => {
+    emit(EVENTS.VALIDATION_START);
     let valid = false;
     const selectionLength = figma.currentPage.selection.length;
 
@@ -27,13 +28,12 @@ export function validateSelectionLength(
     } else if (typeof length === "function") {
       valid = length(selectionLength);
     }
+    emit(EVENTS.VALIDATION_END);
 
     if (valid) {
-      emit(EVENTS.START_EXECUTION);
       setTimeout(async () => {
         try {
           const e = await fn(args);
-          emit(EVENTS.END_EXECUTION, e);
         } catch (e) {
           emit(EVENTS.ERROR, {
             message: "Unexpected error in closure execution",

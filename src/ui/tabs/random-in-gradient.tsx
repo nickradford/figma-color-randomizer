@@ -7,7 +7,7 @@ import { useState, useEffect } from "preact/hooks";
 import ColorPicker from "../../components/color-picker";
 import LinearGradient from "../../components/linear-gradient";
 import { emit, on, setRelaunchButton } from "@create-figma-plugin/utilities";
-import { EVENTS } from "../../constants";
+import { EVENTS, CMD } from "../../constants";
 import { isValidColorString } from "../../util/color";
 
 export function RandomInGradient() {
@@ -21,9 +21,10 @@ export function RandomInGradient() {
     });
 
     on(EVENTS.ERROR, () => {
+      alert("error");
       setLoading(false);
     });
-    on(EVENTS.END_EXECUTION, () => {
+    on(EVENTS.EXECUTION_END, () => {
       setLoading(false);
     });
   }, []);
@@ -33,9 +34,12 @@ export function RandomInGradient() {
   };
   const handleClick = () => {
     setLoading(true);
-    emit(EVENTS.RANDOM_IN_GRADIENT, {
-      fromColor: colorState.from,
-      toColor: colorState.to,
+    emit(EVENTS.EXECUTE_CMD, {
+      type: CMD.RANDOM_IN_GRADIENT,
+      data: {
+        fromColor: colorState.from,
+        toColor: colorState.to,
+      },
     });
   };
 

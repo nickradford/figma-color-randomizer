@@ -19,12 +19,8 @@ export function RandomTab() {
   const [running, setRunning] = useState(false);
 
   useEffect(() => {
-    // on(EVENTS.START_EXECUTION, () => setRunning(true));
     on(EVENTS.ERROR, () => setRunning(false));
-    on(EVENTS.EXECUTION_END, () => {
-      console.log("execution end");
-      setRunning(false);
-    });
+    on(EVENTS.EXECUTION_END, () => setRunning(false));
   }, []);
 
   const handleClick = () => {

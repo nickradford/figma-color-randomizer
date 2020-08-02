@@ -50,23 +50,20 @@ export function getRandomColorInGradient(start: Color, end: Color): Color {
   return Color({ r, g, b });
 }
 
+/**
+ * @deprecated doesn't do the color math correctly, use GetRandomColorInGradient instead
+ * @param fromColor
+ * @param toColor
+ */
 export function GetRandomColorInRange(fromColor: Color, toColor: Color): Color {
-  // console.log(
-  //   `Generating random color between ${fromColor.hex()} and ${toColor.hex()}`
-  // );
-
   const fromHSL = getHSL(fromColor);
   const toHSL = getHSL(toColor);
-
-  // console.log(fromHSL, toHSL);
 
   const out = {
     h: randomValueInRange(fromHSL.h, toHSL.h),
     s: randomValueInRange(fromHSL.s, toHSL.s),
     l: randomValueInRange(fromHSL.l, toHSL.l),
   };
-
-  // console.log(out);
 
   return Color(out);
 }
@@ -81,10 +78,4 @@ export function getRandomColor(): Color {
 
 export function isValidColorString(colorString: string) {
   return !!Color(colorString);
-  // try {
-  //   const c = Color(colorString);
-  //   return true;
-  // } catch (e) {
-  //   return false;
-  // }
 }

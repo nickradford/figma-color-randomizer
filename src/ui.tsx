@@ -15,6 +15,7 @@ import { Tabs } from "@create-figma-plugin/ui/lib/components/tabs/tabs";
 import { emit, on } from "@create-figma-plugin/utilities";
 
 import { EVENTS } from "./constants";
+import { useLifecycleLogging } from "./util/use-lifecycle-logging";
 import { RandomTab } from "./ui/tabs/random";
 import { RandomInGradient } from "./ui/tabs/random-in-gradient";
 
@@ -25,16 +26,15 @@ function Plugin() {
 
   const [error, setError] = useState(null);
 
+  useLifecycleLogging();
+
   // Set up base event handlers
   useEffect(() => {
-    window.onmessage = (e) => console.log("messageevent", e);
-
     on(EVENTS.EXECUTION_START, () => {
       setError(false);
     });
 
     on(EVENTS.ERROR, (data) => {
-      console.log(data);
       setError(data.message);
     });
 
@@ -44,7 +44,6 @@ function Plugin() {
 
     on(EVENTS.EXECUTION_END, () => {
       setError(null);
-      console.log("event: end_execution");
     });
   }, []);
 

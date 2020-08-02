@@ -1,0 +1,1 @@
+type ValidatorFunction = () => [boolean, string?];

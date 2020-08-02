@@ -15,11 +15,6 @@ export function RandomInGradient() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    console.log("setup");
-    on("RUNNING", () => {
-      console.log("running");
-    });
-
     on(EVENTS.ERROR, () => {
       alert("error");
       setLoading(false);

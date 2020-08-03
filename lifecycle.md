@@ -25,3 +25,31 @@ Once a `EXECUTE_CMD` event is picked up on the main thread, it will emit the fol
 ## Errors
 
 The main thread could catch an error at multiple points in the execution, and will emit an `ERROR` with a message body of type `{ message: string }`. These can be listened for in the UI.
+
+## Persisting data
+
+Data can be persisted from the UI by emitting a `EVENTS.PERSIST_DATA` message with data of the shape `{ key: string; data: SerializableData }`
+
+```ts
+useEffect(() => {
+  if (dataFetched) {
+    emit(EVENTS.PERSIST_DATA, {
+      key: DATA_PERSISTENCE_KEY,
+      value: colorState,
+    });
+  }
+}, [colorState, dataFetched]);
+```
+
+Data can then be requested from the UI by emitting `EVENTS.FETCH_PERSISTED_DATA`, and listening for an `EVENTS.FETCH_PERSISTED_DATA_SUCCESS` event, which will contain the data.
+
+```ts
+emit(EVENTS.FETCH_PERSISTED_DATA, {
+  key: DATA_PERSISTENCE_KEY,
+});
+
+on(EVENTS.FETCH_PERSISTED_DATA_SUCCESS, (data) => {
+  setColorState(data.value);
+  setDataFetched(true);
+});
+```

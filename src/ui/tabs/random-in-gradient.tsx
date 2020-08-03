@@ -1,6 +1,11 @@
 /** @jsx h */
 
-import { Container, VerticalSpace, Button } from "@create-figma-plugin/ui";
+import {
+  Container,
+  VerticalSpace,
+  Button,
+  LoadingIndicator,
+} from "@create-figma-plugin/ui";
 import { h } from "preact";
 import { useState, useEffect } from "preact/hooks";
 
@@ -10,23 +15,44 @@ import { emit, on, setRelaunchButton } from "@create-figma-plugin/utilities";
 import { EVENTS, CMD } from "../../constants";
 import { isValidColorString } from "../../util/color";
 
+const DATA_PERSISTENCE_KEY = "randomInGradient.gradientColors";
+
 export function RandomInGradient() {
   const [colorState, setColorState] = useState({ from: "ivory", to: "pink" });
+  const [dataFetched, setDataFetched] = useState(false);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     on(EVENTS.ERROR, () => {
-      alert("error");
       setLoading(false);
     });
     on(EVENTS.EXECUTION_END, () => {
       setLoading(false);
     });
+
+    emit(EVENTS.FETCH_PERSISTED_DATA, {
+      key: DATA_PERSISTENCE_KEY,
+    });
+
+    on(EVENTS.FETCH_PERSISTED_DATA_SUCCESS, (data) => {
+      setColorState(data.value);
+      setDataFetched(true);
+    });
   }, []);
+
+  useEffect(() => {
+    if (dataFetched) {
+      emit(EVENTS.PERSIST_DATA, {
+        key: DATA_PERSISTENCE_KEY,
+        value: colorState,
+      });
+    }
+  }, [colorState, dataFetched]);
 
   const handleSaveClick = () => {
     alert("not implemented");
   };
+
   const handleClick = () => {
     setLoading(true);
     emit(EVENTS.EXECUTE_CMD, {
@@ -38,7 +64,7 @@ export function RandomInGradient() {
     });
   };
 
-  return (
+  return dataFetched ? (
     <Container space="small">
       <div style={{ display: "flex", flexDirection: "column" }}>
         <VerticalSpace space="small" />
@@ -90,5 +116,7 @@ export function RandomInGradient() {
         </footer>
       </div>
     </Container>
+  ) : (
+    <LoadingIndicator />
   );
 }

@@ -14,6 +14,5 @@ export const Randomize: IFigmaPluginCommand = {
     });
     return;
   },
-
   validators: [selectionRequired()],
 };

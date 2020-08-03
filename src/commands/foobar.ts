@@ -1,6 +1,7 @@
 import { selectionRequired } from "../validators/selection-required";
 import { CMD } from "../constants";
 import { IFigmaPluginCommand } from "../types";
+import { exactSelectionLength } from "../validators/exact-selection-length";
 
 export const Foobar: IFigmaPluginCommand = {
   key: CMD.FOOBAR,
@@ -12,5 +13,5 @@ export const Foobar: IFigmaPluginCommand = {
       }, 2000);
     });
   },
-  validators: [selectionRequired()],
+  validators: [selectionRequired(), exactSelectionLength(3)],
 };

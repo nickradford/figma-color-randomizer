@@ -17,5 +17,12 @@ export const useLifecycleLogging = () => {
 
     log(EVENTS.EXECUTION_START);
     log(EVENTS.EXECUTION_END);
+
+    // Data Persistence
+    log(EVENTS.PERSIST_DATA);
+    log(EVENTS.PERSIST_DATA_SUCCESS);
+
+    log(EVENTS.FETCH_PERSISTED_DATA);
+    log(EVENTS.FETCH_PERSISTED_DATA_SUCCESS);
   }, []);
 };

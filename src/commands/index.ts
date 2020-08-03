@@ -6,19 +6,20 @@ export * from "./randomize";
 export * from "./foobar";
 export * from "./random-in-gradient";
 
-export async function ExecuteCommand(command: IFigmaPluginCommand, args) {
+export async function ExecuteCommand(command: IFigmaPluginCommand, args: any) {
   // validation
   emit(EVENTS.VALIDATION_START);
   let hasErrors = false;
-  command.validators.forEach((validator) => {
+  command.validators.some((validator) => {
     const [res, error] = validator();
 
     if (res === false) {
       emit(EVENTS.EXECUTION_END);
       emit(EVENTS.ERROR, { message: error });
       hasErrors = true;
-      return;
+      return hasErrors;
     }
+    return false;
   });
   emit(EVENTS.VALIDATION_END);
   if (hasErrors) {

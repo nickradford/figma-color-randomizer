@@ -16,6 +16,16 @@ export default function () {
     CMD_HANDLERS[Commands[command].key] = Commands[command];
   }
 
+  on(EVENTS.PERSIST_DATA, async (data) => {
+    await figma.clientStorage.setAsync(data.key, data.value);
+    emit(EVENTS.PERSIST_DATA_SUCCESS, data);
+  });
+
+  on(EVENTS.FETCH_PERSISTED_DATA, async (data) => {
+    const value = await figma.clientStorage.getAsync(data.key);
+    emit(EVENTS.FETCH_PERSISTED_DATA_SUCCESS, { key: data.key, value });
+  });
+
   on(EVENTS.EXECUTE_CMD, async (args) => {
     console.log("Known commands", CMD_HANDLERS);
     console.log(EVENTS.EXECUTE_CMD, args);

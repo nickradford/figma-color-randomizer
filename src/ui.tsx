@@ -12,12 +12,13 @@ import {
 } from "@create-figma-plugin/ui";
 
 import { Tabs } from "@create-figma-plugin/ui/lib/components/tabs/tabs";
-import { emit, on } from "@create-figma-plugin/utilities";
+import { on } from "@create-figma-plugin/utilities";
 
 import { EVENTS } from "./constants";
 import { useLifecycleLogging } from "./util/use-lifecycle-logging";
 import { RandomTab } from "./ui/tabs/random";
 import { RandomInGradient } from "./ui/tabs/random-in-gradient";
+import { FoobarTab } from "./ui/tabs/foobar";
 
 export default render(Plugin);
 
@@ -65,6 +66,10 @@ function Plugin() {
                 <Text>Randomize object fills from list of selected colors</Text>
               </div>
             ),
+          },
+          {
+            value: "Debug",
+            view: <FoobarTab />,
           },
         ]}
         value={state.selectedTab}

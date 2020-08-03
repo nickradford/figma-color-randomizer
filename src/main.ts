@@ -5,7 +5,7 @@ import { EVENTS } from "./constants";
 import * as Commands from "./commands";
 
 export default function () {
-  const options = { width: 360, height: 240 };
+  const options = { width: 500, height: 300 };
   const data = {};
 
   showUI(options, data);
